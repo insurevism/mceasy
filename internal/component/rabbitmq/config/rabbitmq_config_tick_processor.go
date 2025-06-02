@@ -8,7 +8,7 @@ import (
 
 func NewRabbitMQConfigTickV2Processor() IRabbitMQConfig {
 
-	prefix := fmt.Sprintf("mainhaus-%s-", viper.GetString("application.name"))
+	prefix := fmt.Sprintf("mceasy-%s-", viper.GetString("application.name"))
 
 	return &RabbitMQConfig{
 		Enabled: viper.GetBool("rabbitmq.mceasy.tickProcessor.enabled"),

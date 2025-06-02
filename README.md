@@ -1,7 +1,7 @@
 # Micro Go Template
 <table>
   <tr>
-    <td style="padding-right: 20px;">Mainhaus backend</td>
+    <td style="padding-right: 20px;">mceasy</td>
     <td><img src="mceasy-wave.jpg"></td>
   </tr>
 </table>

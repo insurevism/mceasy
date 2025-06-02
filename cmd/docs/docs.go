@@ -10,7 +10,7 @@ const docTemplate = `{
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
         "contact": {
-            "url": "https://mainhaustradeclub.com"
+            "url": "https://mceasy.com"
         },
         "version": "{{.Version}}"
     },
