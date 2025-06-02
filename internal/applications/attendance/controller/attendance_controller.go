@@ -29,13 +29,13 @@ func NewAttendanceController(attendanceService service.AttendanceService) *Atten
 // @Tags attendance
 // @Accept json
 // @Produce json
-// @Param attendance body dto.MarkAttendanceRequest true "Attendance data"
+// @Param attendance body dto.MarkAttendanceRequestFlexible true "Attendance data"
 // @Success 201 {object} dto.AttendanceResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 500 {object} map[string]interface{}
 // @Router /attendance [post]
 func (c *AttendanceController) MarkAttendance(ctx echo.Context) error {
-	var req dto.MarkAttendanceRequest
+	var req dto.MarkAttendanceRequestFlexible
 	if err := ctx.Bind(&req); err != nil {
 		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
 			"error":   "Invalid request body",
@@ -50,7 +50,16 @@ func (c *AttendanceController) MarkAttendance(ctx echo.Context) error {
 		})
 	}
 
-	attendance, err := c.attendanceService.MarkAttendance(ctx.Request().Context(), &req)
+	// Convert flexible input to standard DTO
+	standardReq, err := req.ToMarkAttendanceRequest()
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
+			"error":   "Invalid date/time format",
+			"message": err.Error(),
+		})
+	}
+
+	attendance, err := c.attendanceService.MarkAttendance(ctx.Request().Context(), standardReq)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error":   "Failed to mark attendance",
@@ -100,7 +109,7 @@ func (c *AttendanceController) GetAttendance(ctx echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param id path int true "Attendance ID"
-// @Param attendance body dto.UpdateAttendanceRequest true "Attendance data"
+// @Param attendance body dto.UpdateAttendanceRequestFlexible true "Attendance data"
 // @Success 200 {object} dto.AttendanceResponse
 // @Failure 400 {object} map[string]interface{}
 // @Failure 404 {object} map[string]interface{}
@@ -116,7 +125,7 @@ func (c *AttendanceController) UpdateAttendance(ctx echo.Context) error {
 		})
 	}
 
-	var req dto.UpdateAttendanceRequest
+	var req dto.UpdateAttendanceRequestFlexible
 	if err := ctx.Bind(&req); err != nil {
 		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
 			"error":   "Invalid request body",
@@ -131,7 +140,16 @@ func (c *AttendanceController) UpdateAttendance(ctx echo.Context) error {
 		})
 	}
 
-	attendance, err := c.attendanceService.UpdateAttendance(ctx.Request().Context(), id, &req)
+	// Convert flexible input to standard DTO
+	standardReq, err := req.ToUpdateAttendanceRequest()
+	if err != nil {
+		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
+			"error":   "Invalid time format",
+			"message": err.Error(),
+		})
+	}
+
+	attendance, err := c.attendanceService.UpdateAttendance(ctx.Request().Context(), id, standardReq)
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error":   "Failed to update attendance",
@@ -281,46 +299,6 @@ func (c *AttendanceController) GetDailyAttendanceSummary(ctx echo.Context) error
 	return ctx.JSON(http.StatusOK, summary)
 }
 
-// BulkMarkAttendance marks attendance for multiple employees
-// @Summary Bulk mark attendance
-// @Description Mark attendance for multiple employees at once
-// @Tags attendance
-// @Accept json
-// @Produce json
-// @Param attendance body dto.BulkMarkAttendanceRequest true "Bulk attendance data"
-// @Success 200 {object} map[string]interface{}
-// @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
-// @Router /attendance/bulk [post]
-func (c *AttendanceController) BulkMarkAttendance(ctx echo.Context) error {
-	var req dto.BulkMarkAttendanceRequest
-	if err := ctx.Bind(&req); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Invalid request body",
-			"message": err.Error(),
-		})
-	}
-
-	if err := ctx.Validate(&req); err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Validation failed",
-			"message": err.Error(),
-		})
-	}
-
-	err := c.attendanceService.BulkMarkAttendance(ctx.Request().Context(), &req)
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"error":   "Failed to bulk mark attendance",
-			"message": err.Error(),
-		})
-	}
-
-	return ctx.JSON(http.StatusOK, map[string]interface{}{
-		"message": "Bulk attendance marked successfully",
-	})
-}
-
 // CheckInEmployee marks an employee as present with check-in time
 // @Summary Employee check-in
 // @Description Mark employee check-in for today
@@ -380,66 +358,6 @@ func (c *AttendanceController) CheckOutEmployee(ctx echo.Context) error {
 	if err != nil {
 		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"error":   "Failed to check out employee",
-			"message": err.Error(),
-		})
-	}
-
-	return ctx.JSON(http.StatusOK, attendance)
-}
-
-// GetEmployeeAttendanceHistory retrieves attendance history for an employee
-// @Summary Get employee attendance history
-// @Description Get attendance history for a specific employee within date range
-// @Tags attendance
-// @Accept json
-// @Produce json
-// @Param employee_id path int true "Employee ID"
-// @Param start_date query string true "Start date (YYYY-MM-DD)"
-// @Param end_date query string true "End date (YYYY-MM-DD)"
-// @Success 200 {array} dto.AttendanceResponse
-// @Failure 400 {object} map[string]interface{}
-// @Failure 500 {object} map[string]interface{}
-// @Router /attendance/employee/{employee_id}/history [get]
-func (c *AttendanceController) GetEmployeeAttendanceHistory(ctx echo.Context) error {
-	employeeIDStr := ctx.Param("employee_id")
-	employeeID, err := strconv.ParseUint(employeeIDStr, 10, 64)
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Invalid employee ID",
-			"message": "Employee ID must be a valid number",
-		})
-	}
-
-	startDateStr := ctx.QueryParam("start_date")
-	endDateStr := ctx.QueryParam("end_date")
-
-	if startDateStr == "" || endDateStr == "" {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Missing required parameters",
-			"message": "start_date and end_date are required",
-		})
-	}
-
-	startDate, err := time.Parse("2006-01-02", startDateStr)
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Invalid start_date format",
-			"message": "Date must be in YYYY-MM-DD format",
-		})
-	}
-
-	endDate, err := time.Parse("2006-01-02", endDateStr)
-	if err != nil {
-		return ctx.JSON(http.StatusBadRequest, map[string]interface{}{
-			"error":   "Invalid end_date format",
-			"message": "Date must be in YYYY-MM-DD format",
-		})
-	}
-
-	attendance, err := c.attendanceService.GetEmployeeAttendanceHistory(ctx.Request().Context(), employeeID, startDate, endDate)
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"error":   "Failed to get employee attendance history",
 			"message": err.Error(),
 		})
 	}

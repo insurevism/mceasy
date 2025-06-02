@@ -19,7 +19,6 @@ type EmployeeService interface {
 	UpdateEmployee(ctx context.Context, id uint64, req *dto.UpdateEmployeeRequest) (*dto.EmployeeResponse, error)
 	DeleteEmployee(ctx context.Context, id uint64) error
 	ListEmployees(ctx context.Context, params *dto.EmployeeQueryParams) (*dto.EmployeeListResponse, error)
-	GetActiveEmployees(ctx context.Context) ([]dto.EmployeeResponse, error)
 }
 
 // EmployeeServiceImpl implements the EmployeeService interface
@@ -149,21 +148,6 @@ func (s *EmployeeServiceImpl) ListEmployees(ctx context.Context, params *dto.Emp
 		Page:      params.Page,
 		Limit:     params.Limit,
 	}, nil
-}
-
-// GetActiveEmployees retrieves all active employees
-func (s *EmployeeServiceImpl) GetActiveEmployees(ctx context.Context) ([]dto.EmployeeResponse, error) {
-	employees, err := s.employeeRepo.GetActiveEmployees(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get active employees: %w", err)
-	}
-
-	employeeResponses := make([]dto.EmployeeResponse, len(employees))
-	for i, employee := range employees {
-		employeeResponses[i] = *s.mapToEmployeeResponse(employee)
-	}
-
-	return employeeResponses, nil
 }
 
 // mapToEmployeeResponse maps an ent.Employee to dto.EmployeeResponse

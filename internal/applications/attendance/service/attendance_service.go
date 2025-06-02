@@ -22,11 +22,9 @@ type AttendanceService interface {
 	ListAttendance(ctx context.Context, params *dto.AttendanceQueryParams) (*dto.AttendanceListResponse, error)
 	GetTodayAttendance(ctx context.Context) ([]dto.AttendanceResponse, error)
 	GetDailyAttendanceSummary(ctx context.Context, date time.Time) (*dto.DailyAttendanceSummary, error)
-	BulkMarkAttendance(ctx context.Context, req *dto.BulkMarkAttendanceRequest) error
 	CheckInEmployee(ctx context.Context, employeeID uint64, checkInTime time.Time) (*dto.AttendanceResponse, error)
 	CheckOutEmployee(ctx context.Context, employeeID uint64, checkOutTime time.Time) (*dto.AttendanceResponse, error)
 	AutoMarkAbsentEmployees(ctx context.Context) error
-	GetEmployeeAttendanceHistory(ctx context.Context, employeeID uint64, startDate, endDate time.Time) ([]dto.AttendanceResponse, error)
 }
 
 // AttendanceServiceImpl implements the AttendanceService interface
@@ -196,21 +194,6 @@ func (s *AttendanceServiceImpl) GetDailyAttendanceSummary(ctx context.Context, d
 	return summary, nil
 }
 
-// BulkMarkAttendance marks attendance for multiple employees
-func (s *AttendanceServiceImpl) BulkMarkAttendance(ctx context.Context, req *dto.BulkMarkAttendanceRequest) error {
-	// Validate attendance date
-	if req.AttendanceDate.After(time.Now()) {
-		return fmt.Errorf("cannot mark attendance for future dates")
-	}
-
-	err := s.attendanceRepo.BulkMarkAttendance(ctx, req)
-	if err != nil {
-		return fmt.Errorf("failed to bulk mark attendance: %w", err)
-	}
-
-	return nil
-}
-
 // CheckInEmployee marks an employee as present with check-in time
 func (s *AttendanceServiceImpl) CheckInEmployee(ctx context.Context, employeeID uint64, checkInTime time.Time) (*dto.AttendanceResponse, error) {
 	today := time.Now()
@@ -272,21 +255,6 @@ func (s *AttendanceServiceImpl) AutoMarkAbsentEmployees(ctx context.Context) err
 	return nil
 }
 
-// GetEmployeeAttendanceHistory retrieves attendance history for an employee
-func (s *AttendanceServiceImpl) GetEmployeeAttendanceHistory(ctx context.Context, employeeID uint64, startDate, endDate time.Time) ([]dto.AttendanceResponse, error) {
-	attendances, err := s.attendanceRepo.GetAttendanceByDateRange(ctx, employeeID, startDate, endDate)
-	if err != nil {
-		return nil, fmt.Errorf("failed to get employee attendance history: %w", err)
-	}
-
-	attendanceResponses := make([]dto.AttendanceResponse, len(attendances))
-	for i, attendance := range attendances {
-		attendanceResponses[i] = *s.mapToAttendanceResponse(attendance)
-	}
-
-	return attendanceResponses, nil
-}
-
 // mapToAttendanceResponse maps an ent.Attendance to dto.AttendanceResponse
 func (s *AttendanceServiceImpl) mapToAttendanceResponse(attendance *ent.Attendance) *dto.AttendanceResponse {
 	response := &dto.AttendanceResponse{
@@ -316,4 +284,59 @@ func (s *AttendanceServiceImpl) mapToAttendanceResponse(attendance *ent.Attendan
 func isWeekend(date time.Time) bool {
 	weekday := date.Weekday()
 	return weekday == time.Saturday || weekday == time.Sunday
+}
+
+// parseDate parses date string in format "2006-01-02" or "2006-01-02T15:04:05Z"
+func parseDate(dateStr string) (time.Time, error) {
+	// Try different date formats
+	formats := []string{
+		"2006-01-02",
+		"2006-01-02T15:04:05Z",
+		"2006-01-02T15:04:05Z07:00",
+		"2006-01-02 15:04:05",
+	}
+
+	for _, format := range formats {
+		if t, err := time.Parse(format, dateStr); err == nil {
+			// Return just the date part (start of day)
+			return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, t.Location()), nil
+		}
+	}
+
+	return time.Time{}, fmt.Errorf("invalid date format: %s, expected YYYY-MM-DD", dateStr)
+}
+
+// parseTime parses time string in format "15:04:05" or "15:04"
+func parseTime(timeStr string, baseDate time.Time) (time.Time, error) {
+	if timeStr == "" {
+		return time.Time{}, nil
+	}
+
+	// Try different time formats
+	formats := []string{
+		"15:04:05",
+		"15:04",
+		"03:04:05 PM",
+		"03:04 PM",
+	}
+
+	for _, format := range formats {
+		if t, err := time.Parse(format, timeStr); err == nil {
+			// Combine with the base date
+			return time.Date(
+				baseDate.Year(), baseDate.Month(), baseDate.Day(),
+				t.Hour(), t.Minute(), t.Second(), 0, baseDate.Location(),
+			), nil
+		}
+	}
+
+	return time.Time{}, fmt.Errorf("invalid time format: %s, expected HH:MM:SS or HH:MM", timeStr)
+}
+
+// formatTimeString formats time to string, returns empty string for zero time
+func formatTimeString(t time.Time) string {
+	if t.IsZero() {
+		return ""
+	}
+	return t.Format("15:04:05")
 }

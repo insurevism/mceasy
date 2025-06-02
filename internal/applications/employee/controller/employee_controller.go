@@ -241,24 +241,3 @@ func (c *EmployeeController) ListEmployees(ctx echo.Context) error {
 
 	return ctx.JSON(http.StatusOK, employees)
 }
-
-// GetActiveEmployees retrieves all active employees
-// @Summary Get active employees
-// @Description Get list of all active employees
-// @Tags employees
-// @Accept json
-// @Produce json
-// @Success 200 {array} dto.EmployeeResponse
-// @Failure 500 {object} map[string]interface{}
-// @Router /employees/active [get]
-func (c *EmployeeController) GetActiveEmployees(ctx echo.Context) error {
-	employees, err := c.employeeService.GetActiveEmployees(ctx.Request().Context())
-	if err != nil {
-		return ctx.JSON(http.StatusInternalServerError, map[string]interface{}{
-			"error":   "Failed to get active employees",
-			"message": err.Error(),
-		})
-	}
-
-	return ctx.JSON(http.StatusOK, employees)
-}

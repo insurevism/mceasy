@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE attendance (
+CREATE TABLE attendances (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     employee_id BIGINT UNSIGNED NOT NULL,
     attendance_date DATE NOT NULL,
@@ -31,7 +31,7 @@ STARTS '2025-06-03 09:00:00'
 DO
 BEGIN
     -- Mark employees as absent if they haven't checked in by 9:00 AM on weekdays
-    INSERT INTO attendance (employee_id, attendance_date, status, is_weekend, marked_by_admin)
+    INSERT INTO attendances (employee_id, attendance_date, status, is_weekend, marked_by_admin)
     SELECT 
         e.id,
         CURDATE(),
@@ -41,7 +41,7 @@ BEGIN
     FROM employees e
     WHERE e.is_active = TRUE
     AND NOT EXISTS (
-        SELECT 1 FROM attendance a 
+        SELECT 1 FROM attendances a 
         WHERE a.employee_id = e.id 
         AND a.attendance_date = CURDATE()
     )
@@ -56,5 +56,5 @@ DROP EVENT IF EXISTS auto_mark_absent;
 -- +goose StatementEnd
 
 -- +goose StatementBegin
-DROP TABLE attendance;
+DROP TABLE attendances;
 -- +goose StatementEnd

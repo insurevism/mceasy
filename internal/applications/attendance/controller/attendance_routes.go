@@ -16,11 +16,9 @@ func RegisterAttendanceRoutes(e *echo.Group, controller *AttendanceController) {
 	// Special attendance operations
 	e.GET("/attendance/today", controller.GetTodayAttendance)
 	e.GET("/attendance/summary", controller.GetDailyAttendanceSummary)
-	e.POST("/attendance/bulk", controller.BulkMarkAttendance)
 
 	// Employee-specific attendance operations
 	e.POST("/attendance/checkin/:employee_id", controller.CheckInEmployee)
 	e.POST("/attendance/checkout/:employee_id", controller.CheckOutEmployee)
 	e.GET("/attendance/employee/:employee_id", controller.GetEmployeeAttendanceByDate)
-	e.GET("/attendance/employee/:employee_id/history", controller.GetEmployeeAttendanceHistory)
 }

@@ -1,6 +1,7 @@
 package dto
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -85,4 +86,142 @@ type BulkAttendanceItem struct {
 	CheckOutTime time.Time `json:"check_out_time,omitempty"`
 	Status       string    `json:"status" validate:"required,oneof=present absent late half_day"`
 	Notes        string    `json:"notes,omitempty" validate:"omitempty,max=500"`
+}
+
+// MarkAttendanceRequestFlexible represents a flexible input for attendance marking
+type MarkAttendanceRequestFlexible struct {
+	EmployeeID     uint64 `json:"employee_id" validate:"required"`
+	AttendanceDate string `json:"attendance_date" validate:"required"`
+	CheckInTime    string `json:"check_in_time,omitempty"`
+	CheckOutTime   string `json:"check_out_time,omitempty"`
+	Status         string `json:"status" validate:"required,oneof=present absent late half_day"`
+	Notes          string `json:"notes,omitempty" validate:"omitempty,max=500"`
+	MarkedByAdmin  bool   `json:"marked_by_admin,omitempty"`
+}
+
+// ToMarkAttendanceRequest converts flexible input to standard DTO
+func (f *MarkAttendanceRequestFlexible) ToMarkAttendanceRequest() (*MarkAttendanceRequest, error) {
+	// Parse attendance date
+	attendanceDate, err := parseFlexibleDate(f.AttendanceDate)
+	if err != nil {
+		return nil, fmt.Errorf("invalid attendance date: %w", err)
+	}
+
+	// Parse check-in time if provided
+	var checkInTime time.Time
+	if f.CheckInTime != "" {
+		checkInTime, err = parseFlexibleTime(f.CheckInTime, attendanceDate)
+		if err != nil {
+			return nil, fmt.Errorf("invalid check-in time: %w", err)
+		}
+	}
+
+	// Parse check-out time if provided
+	var checkOutTime time.Time
+	if f.CheckOutTime != "" {
+		checkOutTime, err = parseFlexibleTime(f.CheckOutTime, attendanceDate)
+		if err != nil {
+			return nil, fmt.Errorf("invalid check-out time: %w", err)
+		}
+	}
+
+	return &MarkAttendanceRequest{
+		EmployeeID:     f.EmployeeID,
+		AttendanceDate: attendanceDate,
+		CheckInTime:    checkInTime,
+		CheckOutTime:   checkOutTime,
+		Status:         f.Status,
+		Notes:          f.Notes,
+		MarkedByAdmin:  f.MarkedByAdmin,
+	}, nil
+}
+
+// parseFlexibleDate parses date string in various formats
+func parseFlexibleDate(dateStr string) (time.Time, error) {
+	// Try different date formats
+	formats := []string{
+		"2006-01-02",
+		"2006-01-02T15:04:05Z",
+		"2006-01-02T15:04:05Z07:00",
+		"2006-01-02 15:04:05",
+	}
+
+	for _, format := range formats {
+		if t, err := time.Parse(format, dateStr); err == nil {
+			// Return just the date part (start of day)
+			return time.Date(t.Year(), t.Month(), t.Day(), 0, 0, 0, 0, time.UTC), nil
+		}
+	}
+
+	return time.Time{}, fmt.Errorf("invalid date format: %s, expected YYYY-MM-DD", dateStr)
+}
+
+// parseFlexibleTime parses time string in various formats
+func parseFlexibleTime(timeStr string, baseDate time.Time) (time.Time, error) {
+	if timeStr == "" {
+		return time.Time{}, nil
+	}
+
+	// Try different time formats
+	formats := []string{
+		"15:04:05",
+		"15:04",
+		"03:04:05 PM",
+		"03:04 PM",
+	}
+
+	for _, format := range formats {
+		if t, err := time.Parse(format, timeStr); err == nil {
+			// Combine with the base date
+			return time.Date(
+				baseDate.Year(), baseDate.Month(), baseDate.Day(),
+				t.Hour(), t.Minute(), t.Second(), 0, time.UTC,
+			), nil
+		}
+	}
+
+	return time.Time{}, fmt.Errorf("invalid time format: %s, expected HH:MM:SS or HH:MM", timeStr)
+}
+
+// UpdateAttendanceRequestFlexible represents a flexible input for updating attendance
+type UpdateAttendanceRequestFlexible struct {
+	CheckInTime   string `json:"check_in_time,omitempty"`
+	CheckOutTime  string `json:"check_out_time,omitempty"`
+	Status        string `json:"status,omitempty" validate:"omitempty,oneof=present absent late half_day"`
+	Notes         string `json:"notes,omitempty" validate:"omitempty,max=500"`
+	MarkedByAdmin *bool  `json:"marked_by_admin,omitempty"`
+}
+
+// ToUpdateAttendanceRequest converts flexible input to standard DTO
+func (f *UpdateAttendanceRequestFlexible) ToUpdateAttendanceRequest() (*UpdateAttendanceRequest, error) {
+	// We need a base date for time parsing - use today as default
+	baseDate := time.Now()
+
+	// Parse check-in time if provided
+	var checkInTime time.Time
+	if f.CheckInTime != "" {
+		var err error
+		checkInTime, err = parseFlexibleTime(f.CheckInTime, baseDate)
+		if err != nil {
+			return nil, fmt.Errorf("invalid check-in time: %w", err)
+		}
+	}
+
+	// Parse check-out time if provided
+	var checkOutTime time.Time
+	if f.CheckOutTime != "" {
+		var err error
+		checkOutTime, err = parseFlexibleTime(f.CheckOutTime, baseDate)
+		if err != nil {
+			return nil, fmt.Errorf("invalid check-out time: %w", err)
+		}
+	}
+
+	return &UpdateAttendanceRequest{
+		CheckInTime:   checkInTime,
+		CheckOutTime:  checkOutTime,
+		Status:        f.Status,
+		Notes:         f.Notes,
+		MarkedByAdmin: f.MarkedByAdmin,
+	}, nil
 }
