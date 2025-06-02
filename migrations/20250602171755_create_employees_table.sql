@@ -20,9 +20,9 @@ CREATE TABLE employees (
     INDEX idx_is_active (is_active),
     INDEX idx_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- +goose StatementEnd
 
--- Create a trigger to auto-generate employee_id
-DELIMITER $$
+-- +goose StatementBegin
 CREATE TRIGGER before_insert_employees
     BEFORE INSERT ON employees
     FOR EACH ROW
@@ -31,12 +31,14 @@ BEGIN
         SET @next_id = (SELECT COALESCE(MAX(CAST(SUBSTRING(employee_id, 5) AS UNSIGNED)), 0) + 1 FROM employees WHERE employee_id REGEXP '^EMP-[0-9]+$');
         SET NEW.employee_id = CONCAT('EMP-', LPAD(@next_id, 4, '0'));
     END IF;
-END$$
-DELIMITER ;
+END;
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
 DROP TRIGGER IF EXISTS before_insert_employees;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
 DROP TABLE employees;
 -- +goose StatementEnd

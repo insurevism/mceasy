@@ -63,6 +63,20 @@ func (eu *EmployeeUpdate) SetEmployeeID(s string) *EmployeeUpdate {
 	return eu
 }
 
+// SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
+func (eu *EmployeeUpdate) SetNillableEmployeeID(s *string) *EmployeeUpdate {
+	if s != nil {
+		eu.SetEmployeeID(*s)
+	}
+	return eu
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (eu *EmployeeUpdate) ClearEmployeeID() *EmployeeUpdate {
+	eu.mutation.ClearEmployeeID()
+	return eu
+}
+
 // SetFullName sets the "full_name" field.
 func (eu *EmployeeUpdate) SetFullName(s string) *EmployeeUpdate {
 	eu.mutation.SetFullName(s)
@@ -354,6 +368,9 @@ func (eu *EmployeeUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := eu.mutation.EmployeeID(); ok {
 		_spec.SetField(employee.FieldEmployeeID, field.TypeString, value)
 	}
+	if eu.mutation.EmployeeIDCleared() {
+		_spec.ClearField(employee.FieldEmployeeID, field.TypeString)
+	}
 	if value, ok := eu.mutation.FullName(); ok {
 		_spec.SetField(employee.FieldFullName, field.TypeString, value)
 	}
@@ -531,6 +548,20 @@ func (euo *EmployeeUpdateOne) ClearDeletedAt() *EmployeeUpdateOne {
 // SetEmployeeID sets the "employee_id" field.
 func (euo *EmployeeUpdateOne) SetEmployeeID(s string) *EmployeeUpdateOne {
 	euo.mutation.SetEmployeeID(s)
+	return euo
+}
+
+// SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
+func (euo *EmployeeUpdateOne) SetNillableEmployeeID(s *string) *EmployeeUpdateOne {
+	if s != nil {
+		euo.SetEmployeeID(*s)
+	}
+	return euo
+}
+
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (euo *EmployeeUpdateOne) ClearEmployeeID() *EmployeeUpdateOne {
+	euo.mutation.ClearEmployeeID()
 	return euo
 }
 
@@ -854,6 +885,9 @@ func (euo *EmployeeUpdateOne) sqlSave(ctx context.Context) (_node *Employee, err
 	}
 	if value, ok := euo.mutation.EmployeeID(); ok {
 		_spec.SetField(employee.FieldEmployeeID, field.TypeString, value)
+	}
+	if euo.mutation.EmployeeIDCleared() {
+		_spec.ClearField(employee.FieldEmployeeID, field.TypeString)
 	}
 	if value, ok := euo.mutation.FullName(); ok {
 		_spec.SetField(employee.FieldFullName, field.TypeString, value)

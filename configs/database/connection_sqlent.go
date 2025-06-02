@@ -9,53 +9,58 @@ import (
 	"mceasy/ent"
 
 	entSql "entgo.io/ent/dialect/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/gommon/log"
-	_ "github.com/lib/pq"
 )
 
 func NewSqlEntClient() *ent.Client {
-	// Adjust the DSN format for PostgreSQL
-	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
-		credential.GetString("db.configs.host"),
-		credential.GetString("db.configs.port"),
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		credential.GetString("db.configs.username"),
 		credential.GetString("db.configs.password"),
+		credential.GetString("db.configs.host"),
+		credential.GetString("db.configs.port"),
 		credential.GetString("db.configs.database"))
 
-	log.Infof("DSN=", dsn) // For debugging only, ensure credentials are not logged in production
+	log.Debug("DSN=", dsn) //for debug only
 
-	// Open a PostgreSQL connection
-	db, err := sql.Open("postgres", dsn)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("failed opening connection to DB: %v", err)
 	}
 
-	// Set database connection settings
 	db.SetMaxIdleConns(credential.GetInt("db.configs.maxIdleConn"))
 	db.SetMaxOpenConns(credential.GetInt("db.configs.maxOpenConn"))
 	db.SetConnMaxLifetime(time.Hour)
 
-	// Initialize the Ent client with PostgreSQL driver
-	drv := entSql.OpenDB("postgres", db)
-	client := ent.NewClient(ent.Driver(drv))
+	drv := entSql.OpenDB("mysql", db)
 
-	// Ensure the client is properly initialized
-	if client == nil {
-		log.Fatalf("failed to initialize Ent client")
-	}
-
-	// Determine app mode
+	var client = &ent.Client{}
 	appMode := credential.GetString("application.mode")
 	if appMode == "prod" {
-		log.Info("initialized database connection: PRODUCTION")
+		log.Info("initialized database x sqlDb x orm ent : DEV")
+		client = ent.NewClient(ent.Driver(drv))
 	} else {
-		log.Info("initialized database connection: DEVELOPMENT")
-		client = ent.NewClient(ent.Driver(drv), ent.Debug()) // Enable debug in non-prod mode
+		log.Info("initialized database x sqlDb x orm ent : PROD")
+		client = ent.NewClient(ent.Driver(drv), ent.Debug())
 	}
 
-	log.Info("Database initialization successful")
+	if drv == nil || client == nil {
+		log.Fatalf("failed opening connection to DB : driver or DB new client is null")
+	}
 
-	// Setup hooks if needed
+	// Run the auto migration tool.
+	//if err := client.Schema.Create(context.Background()); err != nil {
+	//	log.Fatalf("failed creating schema resources: %v", err)
+	//}
+
+	if err != nil {
+		log.Printf("err : %s\n", err)
+	}
+
+	log.Info("initialized database x sqlDb x orm ent : success")
+
+	//setup hooks
 	SetupHooks(client)
 
 	return client

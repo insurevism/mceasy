@@ -29,10 +29,6 @@ schema:
 schema-advance:
 	@echo "*****\n Advance mode will granted you a super power, use it wisely\n [Generate with entgo feature sql/modifier,sql/execquery]\n*****"
 	go run -mod=mod entgo.io/ent/cmd/ent generate --feature $(FEATURES) $(ENT_PATH)
-	@echo "Running er_ps patch script - replace master_product_er_ps with master_product_erps..."
-	@chmod +x ./er_ps_patch.sh
-	@./er_ps_patch.sh
-	@echo "Patch completed!"
 
 # List all available schemas
 schema-list:

@@ -22,10 +22,9 @@ CREATE TABLE attendance (
     INDEX idx_is_weekend (is_weekend),
     INDEX idx_deleted_at (deleted_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+-- +goose StatementEnd
 
--- Create a MySQL event to automatically mark absent if not present by 9:00 AM
--- Note: MySQL events need to be enabled with SET GLOBAL event_scheduler = ON;
-DELIMITER $$
+-- +goose StatementBegin
 CREATE EVENT auto_mark_absent
 ON SCHEDULE EVERY 1 DAY
 STARTS '2025-06-03 09:00:00'
@@ -48,12 +47,14 @@ BEGIN
     )
     AND DAYOFWEEK(CURDATE()) NOT IN (1, 7) -- Exclude Sunday (1) and Saturday (7)
     AND TIME(NOW()) >= '09:00:00';
-END$$
-DELIMITER ;
+END;
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
 DROP EVENT IF EXISTS auto_mark_absent;
+-- +goose StatementEnd
+
+-- +goose StatementBegin
 DROP TABLE attendance;
 -- +goose StatementEnd

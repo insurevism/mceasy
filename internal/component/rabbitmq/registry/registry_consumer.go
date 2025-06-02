@@ -1,20 +1,10 @@
 package registry
 
 import (
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/ent"
-
-	"hokusai/internal/applications/tick"
-	tickDto "hokusai/internal/applications/tick/dto"
-
-	tickAggregationDto "hokusai/internal/applications/tick_aggregation/dto"
-	"hokusai/internal/applications/tick_v2"
-
-	"hokusai/internal/component/rabbitmq/config"
-	inbound "hokusai/internal/component/rabbitmq/inbound"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/ent"
 
 	"github.com/go-redis/redis/v8"
-	"github.com/labstack/gommon/log"
 )
 
 type ConsumerRegistry struct {
@@ -28,43 +18,10 @@ func NewConsumerRegistry(client *ent.Client, redis *redis.Client, conn *connecti
 }
 
 func (f *ConsumerRegistry) Register() {
+	// Consumer registration can be added here when needed
+	// For now, we don't have any consumers for the attendance management system
 
-	//init testing inbound:
-	{
-		//inbound := example.InitializedExampleInbound(f.client, f.conn)
-		//_, err := inbound.GetMessage(config.NewRabbitMQConfigExample())
-		//if err != nil {
-		//	log.Fatalf("Failed to consume messages: %v", err)
-		//}
-	}
-
-	//init other consumer here...
-
-	{
-		cnf := config.NewRabbitMQConfigTickAggregrator()
-		consumer := tick.InitializedTickAggregrator(f.client, f.redis, f.conn)
-		_, err := inbound.NewRetriable[*tickDto.ForexDataRequest](f.conn, consumer).GetMessage(cnf)
-		if err != nil {
-			log.Fatalf("Failed to consume  + Sync Integration messages: %v", err)
-		}
-	}
-
-	{
-		cnf := config.NewRabbitMQConfigTickDBProcessor()
-		consumer := tick.InitializedTickV4DbProcessor(f.client, f.redis, f.conn)
-		_, err := inbound.NewRetriable[*tickDto.ForexDataRequest](f.conn, consumer).GetMessage(cnf)
-		if err != nil {
-			log.Fatalf("Failed to consume  + Sync Integration messages: %v", err)
-		}
-	}
-
-	{
-		cnf := config.NewRabbitMQConfigTickV2Processor()
-		consumer := tick_v2.InitializedTickV2Processor(f.client, f.redis, f.conn)
-		_, err := inbound.NewRetriable[*tickAggregationDto.AggregationResultDTO](f.conn, consumer).GetMessage(cnf)
-		if err != nil {
-			log.Fatalf("Failed to consume  + Sync Integration messages: %v", err)
-		}
-	}
-
+	// Example of how to register a consumer:
+	// consumer := inbound.NewExampleConsumer(dbClient)
+	// config.RegisterConsumer(ch, "queue_name", consumer.Consume)
 }

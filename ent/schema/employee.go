@@ -22,6 +22,7 @@ func (Employee) Fields() []ent.Field {
 		field.String("employee_id").
 			MaxLen(20).
 			Unique().
+			Optional().
 			Comment("Unique employee identifier like EMP-0001, EMP-0002"),
 
 		field.String("full_name").

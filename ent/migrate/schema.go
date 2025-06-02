@@ -70,7 +70,7 @@ var (
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "modified_at", Type: field.TypeTime},
 		{Name: "deleted_at", Type: field.TypeTime, Nullable: true},
-		{Name: "employee_id", Type: field.TypeString, Unique: true, Size: 20},
+		{Name: "employee_id", Type: field.TypeString, Unique: true, Nullable: true, Size: 20},
 		{Name: "full_name", Type: field.TypeString, Size: 255},
 		{Name: "email", Type: field.TypeString, Unique: true, Size: 255},
 		{Name: "phone", Type: field.TypeString, Nullable: true, Size: 20},

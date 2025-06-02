@@ -5,10 +5,10 @@ package ent
 import (
 	"context"
 	"fmt"
+	"math"
 	"mceasy/ent/attendance"
 	"mceasy/ent/employee"
 	"mceasy/ent/predicate"
-	"math"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

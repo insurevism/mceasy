@@ -97,11 +97,7 @@ func (r *UserRepositoryImpl) GetById(ctx context.Context, id uint64) (*ent.User,
 		Where(user.And(
 			user.ID(id),
 			user.DeletedAtIsNil(),
-		)).
-		WithUserAccounts(func(q *ent.UserAccountQuery) {
-			q.WithAccountConfig()
-		}).
-		Only(ctx)
+		)).Only(ctx)
 
 	if err != nil {
 		middleware.SendDiscordNotificationError(middleware.WebhookChannelSourceERRORDATABASETRX, err)
@@ -151,11 +147,7 @@ func (r *UserRepositoryImpl) Login(ctx context.Context, email string) (*ent.User
 		Where(
 			user.EmailEQ(email),
 			user.DeletedAtIsNil(),
-		).
-		WithUserAccounts(func(q *ent.UserAccountQuery) {
-			q.WithAccountConfig()
-		}).
-		Only(ctx)
+		).Only(ctx)
 
 	if err != nil {
 		middleware.SendDiscordNotificationError(middleware.WebhookChannelSourceERRORDATABASETRX, err)

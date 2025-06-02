@@ -6,11 +6,11 @@ import (
 	"context"
 	"database/sql/driver"
 	"fmt"
+	"math"
 	"mceasy/ent/attendance"
 	"mceasy/ent/employee"
 	"mceasy/ent/predicate"
 	"mceasy/ent/salarycalculation"
-	"math"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

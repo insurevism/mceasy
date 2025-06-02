@@ -3,103 +3,89 @@ package main
 import (
 	"database/sql"
 	"flag"
-	"fmt"
+	"github.com/pressly/goose/v3"
 	"log"
+	"mceasy/migrations"
 	"os"
 
-	_ "github.com/go-sql-driver/mysql" // MySQL driver
-	"github.com/pressly/goose/v3"
-	"github.com/spf13/viper"
+	// Init DB drivers. -- here I recommend remove unnecessary - but it's up to you
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
+	_ "github.com/mattn/go-sqlite3"
+	_ "github.com/ziutek/mymysql/godrv"
 
+	// here our migrations will live  -- use your path
 	_ "mceasy/migrations"
 )
 
 var (
 	flags = flag.NewFlagSet("goose", flag.ExitOnError)
-	dir   = flags.String("dir", "migrations", "directory with migration files")
+	dir   = flags.String("dir", migrations.MigrationPath(), "directory with migration files")
 )
 
 func main() {
-	loadConfig()
-
 	flags.Usage = usage
 	err := flags.Parse(os.Args[1:])
 	if err != nil {
-		log.Fatalf("Error parsing flags: %v", err)
+		return
 	}
 
 	args := flags.Args()
+
+	if len(args) > 1 && args[0] == "run" {
+		log.Printf("PROGRAM RUN\n")
+		os.Exit(0)
+	}
+
+	if len(args) > 1 && args[0] == "create" {
+		if err := goose.Run("create", nil, *dir, args[1:]...); err != nil {
+			log.Fatalf("goose run: %v", err)
+		}
+		return
+	}
+
 	if len(args) < 2 {
 		flags.Usage()
 		return
 	}
 
-	driver := args[0]
-	command := args[1]
-
-	// Ensure MySQL is supported
-	if driver != "mysql" {
-		log.Fatalf("%q driver not supported. Use 'mysql'.", driver)
+	if args[0] == "-h" || args[0] == "--help" {
+		flags.Usage()
+		return
 	}
 
-	// Get database connection string from environment variables
-	dbSource := getMySQLDSN()
-	if dbSource == "" {
-		log.Fatal("MySQL DSN could not be constructed from environment variables")
+	driver, command := args[0], args[1]
+
+	switch driver {
+	case "postgres", "mysql", "sqlite3":
+		if err := goose.SetDialect(driver); err != nil {
+			log.Fatal(err)
+		}
+	default:
+		log.Fatalf("%q driver not supported\n", driver)
 	}
 
-	// Open MySQL database connection
+	dbSource := migrations.MigrationConnection()
 	db, err := sql.Open(driver, dbSource)
 	if err != nil {
-		log.Fatalf("Failed to open database: %v", err)
+		log.Fatalf("-dbstring=%q: %v\n", dbSource, err)
 	}
-	defer db.Close()
 
-	// Run Goose migration command
 	executeCommand(args, command, db)
 }
 
-// loadConfig initializes Viper and reads secret.env
-func loadConfig() {
-	viper.SetConfigFile("secret.env") // Set config file name
-	viper.SetConfigType("env")        // Define file type as .env
-	viper.AutomaticEnv()              // Enable environment variable support
-
-	// Read the config file
-	if err := viper.ReadInConfig(); err != nil {
-		log.Fatalf("Error reading config file: %v", err)
-	}
-}
-
-// getMySQLDSN constructs the MySQL DSN from environment variables
-func getMySQLDSN() string {
-	host := viper.GetString("db.configs.host")
-	port := viper.GetString("db.configs.port")
-	user := viper.GetString("db.configs.username")
-	password := viper.GetString("db.configs.password")
-	dbname := viper.GetString("db.configs.database")
-
-	if host == "" || port == "" || user == "" || dbname == "" {
-		log.Fatal("Missing required database environment variables")
-	}
-
-	return fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
-		user, password, host, port, dbname)
-}
-
-// executeCommand runs the Goose command
 func executeCommand(args []string, command string, db *sql.DB) {
+
 	var arguments []string
 	if len(args) > 2 {
 		arguments = append(arguments, args[2:]...)
 	}
 
 	if err := goose.RunWithOptions(command, db, *dir, arguments, goose.WithAllowMissing()); err != nil {
-		log.Fatalf("Goose run error: %v", err)
+		log.Fatalf("goose run: %v", err)
 	}
 }
 
-// usage prints help message
 func usage() {
 	log.Print(usagePrefix)
 	flags.PrintDefaults()
@@ -107,20 +93,34 @@ func usage() {
 }
 
 var (
-	usagePrefix = `Usage: go run main.go DRIVER COMMAND
+	usagePrefix = `Usage: goose [OPTIONS] DRIVER DBSTRING COMMAND
 Drivers:
+    postgres
     mysql
+    sqlite3
+    redshift
 Examples:
-    go run main.go mysql up
-    go run main.go mysql down
-    go run main.go mysql status
-    go run main.go mysql create migration_name sql
+    goose sqlite3 ./foo.db status
+    goose sqlite3 ./foo.db create init sql
+    goose sqlite3 ./foo.db create add_some_column sql
+    goose sqlite3 ./foo.db create fetch_user_data go
+    goose sqlite3 ./foo.db up
+    goose postgres "user=postgres dbname=postgres sslmode=disable" status
+    goose mysql "user:password@/dbname?parseTime=true" status
+    goose redshift "postgres://user:password@qwerty.us-east-1.redshift.amazonaws.com:5439/db"
+status
+Options:
 `
+
 	usageCommands = `
 Commands:
     up                   Migrate the DB to the most recent version available
-    down                 Roll back the latest migration
-    status               Show migration status
-    create NAME TYPE     Create a new migration file (TYPE: sql or go)
+    up-to VERSION        Migrate the DB to a specific VERSION
+    down                 Roll back the version by 1
+    down-to VERSION      Roll back to a specific VERSION
+    redo                 Re-run the latest migration
+    status               Dump the migration status for the current DB
+    version              Print the current version of the database
+    create NAME [sql|go] Creates new migration file with next version
 `
 )

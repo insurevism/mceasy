@@ -70,6 +70,14 @@ func (ec *EmployeeCreate) SetEmployeeID(s string) *EmployeeCreate {
 	return ec
 }
 
+// SetNillableEmployeeID sets the "employee_id" field if the given value is not nil.
+func (ec *EmployeeCreate) SetNillableEmployeeID(s *string) *EmployeeCreate {
+	if s != nil {
+		ec.SetEmployeeID(*s)
+	}
+	return ec
+}
+
 // SetFullName sets the "full_name" field.
 func (ec *EmployeeCreate) SetFullName(s string) *EmployeeCreate {
 	ec.mutation.SetFullName(s)
@@ -254,9 +262,6 @@ func (ec *EmployeeCreate) check() error {
 	}
 	if _, ok := ec.mutation.ModifiedAt(); !ok {
 		return &ValidationError{Name: "modified_at", err: errors.New(`ent: missing required field "Employee.modified_at"`)}
-	}
-	if _, ok := ec.mutation.EmployeeID(); !ok {
-		return &ValidationError{Name: "employee_id", err: errors.New(`ent: missing required field "Employee.employee_id"`)}
 	}
 	if v, ok := ec.mutation.EmployeeID(); ok {
 		if err := employee.EmployeeIDValidator(v); err != nil {

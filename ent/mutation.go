@@ -1331,9 +1331,22 @@ func (m *EmployeeMutation) OldEmployeeID(ctx context.Context) (v string, err err
 	return oldValue.EmployeeID, nil
 }
 
+// ClearEmployeeID clears the value of the "employee_id" field.
+func (m *EmployeeMutation) ClearEmployeeID() {
+	m.employee_id = nil
+	m.clearedFields[employee.FieldEmployeeID] = struct{}{}
+}
+
+// EmployeeIDCleared returns if the "employee_id" field was cleared in this mutation.
+func (m *EmployeeMutation) EmployeeIDCleared() bool {
+	_, ok := m.clearedFields[employee.FieldEmployeeID]
+	return ok
+}
+
 // ResetEmployeeID resets all changes to the "employee_id" field.
 func (m *EmployeeMutation) ResetEmployeeID() {
 	m.employee_id = nil
+	delete(m.clearedFields, employee.FieldEmployeeID)
 }
 
 // SetFullName sets the "full_name" field.
@@ -2068,6 +2081,9 @@ func (m *EmployeeMutation) ClearedFields() []string {
 	if m.FieldCleared(employee.FieldDeletedAt) {
 		fields = append(fields, employee.FieldDeletedAt)
 	}
+	if m.FieldCleared(employee.FieldEmployeeID) {
+		fields = append(fields, employee.FieldEmployeeID)
+	}
 	if m.FieldCleared(employee.FieldPhone) {
 		fields = append(fields, employee.FieldPhone)
 	}
@@ -2093,6 +2109,9 @@ func (m *EmployeeMutation) ClearField(name string) error {
 	switch name {
 	case employee.FieldDeletedAt:
 		m.ClearDeletedAt()
+		return nil
+	case employee.FieldEmployeeID:
+		m.ClearEmployeeID()
 		return nil
 	case employee.FieldPhone:
 		m.ClearPhone()

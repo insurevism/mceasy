@@ -5,9 +5,9 @@ package ent
 import (
 	"context"
 	"fmt"
+	"math"
 	"mceasy/ent/predicate"
 	"mceasy/ent/user"
-	"math"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

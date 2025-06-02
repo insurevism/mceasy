@@ -8,14 +8,10 @@ import (
 	"mceasy/configs/cache"
 	"mceasy/configs/credential"
 	"mceasy/configs/database"
-	"mceasy/configs/rabbitmq/connection"
-	"mceasy/configs/rabbitmq/initialize"
 	"mceasy/configs/swagger"
 	"mceasy/configs/validator"
 	"mceasy/ent"
 	restApi "mceasy/internal/adapter/rest"
-	"mceasy/internal/component/rabbitmq/registry"
-	"mceasy/internal/vars"
 	"mceasy/middleware"
 	"net/http"
 	"os"
@@ -30,14 +26,14 @@ import (
 	_ "mceasy/cmd/docs"
 )
 
-//	@title			Micro Go Template Service
-//	@version		0.0.1
-//	@description	Please welcome a holy high-speed and high-performance Echo service!
+//	@title			Attendance Management System
+//	@version		1.0.0
+//	@description	Attendance Management System for Employee Tracking
 
-//	@contact.url	https://mainhaustradeclub.com
+//	@contact.url	https://example.com
 
 // @host		localhost:8888
-// @basePath	/micro-go-template
+// @basePath	/attendance-system
 func main() {
 	e := echo.New()
 	fmt.Println("initialized echo framework")
@@ -47,15 +43,12 @@ func main() {
 	configs.SetupLogger(e)
 	configs.SetupZeroLogger()
 
-	vars.InitFlexofastConfig()
-
 	middleware.SetupMiddlewares(e)
 
 	validator.SetupValidator(e)
 	validator.SetupGlobalHttpUnhandleErrors(e)
 
 	dbConnection := database.NewSqlEntClient() //using sqlDb wrapped by ent
-	//dbConnection := database.NewEntClient() //using ent only
 	log.Info("initialized database configuration CONNECTED")
 
 	//from docs define close on this function, but will impact cant create DB session on repository:
@@ -77,32 +70,11 @@ func main() {
 		}
 	}()
 
-	var rabbitInit *connection.RabbitMQConnection
-	useMq := viper.GetString("application.rabbit.isactive")
-	if useMq == "true" || useMq == "" {
-		//configuration for rabbit client:
-		rabbitInit = initialize.RabbitMQInitialize(dbConnection, redisConnection)
-		defer func() {
-			err := rabbitInit.GetConnection().Close()
-			if err != nil {
-				log.Errorf("Error closing RabbitMQConnection connection: %v", err)
-			}
-		}()
-
-		// rabbitmq registry exchange, queue, dlq and other:
-		registerMq := registry.NewProducerRegistry(rabbitInit)
-		registerMq.Register()
-
-		//rabbitmq registry consumer:
-		registerConsumer := registry.NewConsumerRegistry(dbConnection, redisConnection, rabbitInit)
-		registerConsumer.Register()
-	}
-
 	//setup swagger:
 	swagger.InitSwagger()
 
 	//setup router
-	restApi.SetupRouteHandler(e, dbConnection, redisConnection, rabbitInit)
+	restApi.SetupRouteHandler(e, dbConnection, redisConnection)
 
 	port := viper.GetString("application.port")
 
@@ -117,13 +89,11 @@ func main() {
 	// Wait for interrupt signal to gracefully shut down the server with a timeout of 10 seconds.
 	// Use a buffered channel to avoid missing signals as recommended for signal.Notify
 	quit := make(chan os.Signal, 1)
-	//signal.Notify(quit, os.Interrupt)
-	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM) //not tested
+	signal.Notify(quit, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	if err := e.Shutdown(ctx); err != nil {
 		e.Logger.Fatal(err)
 	}
-
 }
