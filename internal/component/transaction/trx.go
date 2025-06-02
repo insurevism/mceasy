@@ -2,7 +2,7 @@ package transaction
 
 import (
 	"context"
-	"hokusai/ent"
+	"mceasy/ent"
 )
 
 type Trx interface {

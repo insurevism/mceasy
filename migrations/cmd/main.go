@@ -11,7 +11,7 @@ import (
 	"github.com/pressly/goose/v3"
 	"github.com/spf13/viper"
 
-	_ "hokusai/migrations"
+	_ "mceasy/migrations"
 )
 
 var (

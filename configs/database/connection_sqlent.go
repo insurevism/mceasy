@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"hokusai/configs/credential"
-	"hokusai/ent"
+	"mceasy/configs/credential"
+	"mceasy/ent"
 
 	entSql "entgo.io/ent/dialect/sql"
 	"github.com/labstack/gommon/log"

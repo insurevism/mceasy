@@ -4,11 +4,11 @@ package enttest
 
 import (
 	"context"
-	"hokusai/ent"
+	"mceasy/ent"
 	// required by schema hooks.
-	_ "hokusai/ent/runtime"
+	_ "mceasy/ent/runtime"
 
-	"hokusai/ent/migrate"
+	"mceasy/ent/migrate"
 
 	"entgo.io/ent/dialect/sql/schema"
 )

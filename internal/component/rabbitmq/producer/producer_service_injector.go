@@ -4,8 +4,8 @@
 package producer
 
 import (
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/internal/component/rabbitmq/channel"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/internal/component/rabbitmq/channel"
 
 	"github.com/google/wire"
 )

@@ -1,7 +1,7 @@
 package test
 
 import (
-	"hokusai/configs/validator"
+	"mceasy/configs/validator"
 	"testing"
 
 	"github.com/labstack/echo/v4"

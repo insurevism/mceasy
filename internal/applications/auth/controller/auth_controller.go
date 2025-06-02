@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"hokusai/internal/applications/auth/dto"
-	"hokusai/internal/applications/auth/service"
-	"hokusai/internal/helper"
-	"hokusai/internal/helper/response"
+	"mceasy/internal/applications/auth/dto"
+	"mceasy/internal/applications/auth/service"
+	"mceasy/internal/helper"
+	"mceasy/internal/helper/response"
 
 	"github.com/labstack/echo/v4"
 )

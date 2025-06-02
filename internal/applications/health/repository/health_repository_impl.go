@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"hokusai/ent"
+	"mceasy/ent"
 
 	"github.com/labstack/gommon/log"
 )

@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"hokusai/ent"
-	"hokusai/internal/applications/user/dto"
+	"mceasy/ent"
+	"mceasy/internal/applications/user/dto"
 )
 
 type (

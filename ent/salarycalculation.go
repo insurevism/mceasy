@@ -4,8 +4,8 @@ package ent
 
 import (
 	"fmt"
-	"hokusai/ent/employee"
-	"hokusai/ent/salarycalculation"
+	"mceasy/ent/employee"
+	"mceasy/ent/salarycalculation"
 	"strings"
 	"time"
 

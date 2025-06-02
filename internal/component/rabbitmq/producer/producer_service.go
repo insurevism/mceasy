@@ -1,6 +1,6 @@
 package producer
 
-import "hokusai/internal/component/rabbitmq/config"
+import "mceasy/internal/component/rabbitmq/config"
 
 type Producer interface {
 	SendToDirect(producer config.IRabbitMQConfig, message []byte) (bool, error)

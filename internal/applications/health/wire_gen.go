@@ -9,10 +9,10 @@ package health
 import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
-	"hokusai/ent"
-	"hokusai/internal/applications/health/repository"
-	"hokusai/internal/applications/health/service"
-	"hokusai/internal/component/cache"
+	"mceasy/ent"
+	"mceasy/internal/applications/health/repository"
+	"mceasy/internal/applications/health/service"
+	"mceasy/internal/component/cache"
 )
 
 // Injectors from health_injector.go:

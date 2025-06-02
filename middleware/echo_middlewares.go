@@ -26,7 +26,7 @@ func SetupMiddlewares(e *echo.Echo) {
 	// e.Use(middleware.Secure())
 
 	// Create a group for SSE endpoints with minimal middleware
-	sseGroup := e.Group("/hokusai/signals")
+	sseGroup := e.Group("/mceasy/signals")
 	// Only apply essential middleware to SSE endpoints
 	sseGroup.Use(middleware.Recover())
 	// Add CORS middleware specifically configured for SSE

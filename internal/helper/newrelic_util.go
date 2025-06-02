@@ -2,7 +2,7 @@ package helper
 
 import (
 	"context"
-	"hokusai/middleware"
+	"mceasy/middleware"
 
 	"github.com/labstack/gommon/log"
 	"github.com/newrelic/go-agent/v3/newrelic"

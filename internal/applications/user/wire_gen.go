@@ -9,11 +9,11 @@ package user
 import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
-	"hokusai/ent"
-	"hokusai/internal/applications/user/repository"
-	"hokusai/internal/applications/user/service"
-	"hokusai/internal/component/cache"
-	"hokusai/internal/component/transaction"
+	"mceasy/ent"
+	"mceasy/internal/applications/user/repository"
+	"mceasy/internal/applications/user/service"
+	"mceasy/internal/component/cache"
+	"mceasy/internal/component/transaction"
 )
 
 // Injectors from user_injector.go:

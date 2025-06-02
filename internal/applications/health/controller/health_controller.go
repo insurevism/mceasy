@@ -1,10 +1,10 @@
 package controller
 
 import (
-	"hokusai/internal/applications/health/dto"
-	"hokusai/internal/applications/health/service"
-	"hokusai/internal/helper/response"
-	"hokusai/internal/vars"
+	"mceasy/internal/applications/health/dto"
+	"mceasy/internal/applications/health/service"
+	"mceasy/internal/helper/response"
+	"mceasy/internal/vars"
 	"net/http"
 	"time"
 

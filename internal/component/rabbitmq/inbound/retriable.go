@@ -2,12 +2,12 @@ package inbound
 
 import (
 	"context"
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/internal/component/rabbitmq/channel"
-	"hokusai/internal/component/rabbitmq/config"
-	"hokusai/internal/component/rabbitmq/consumer"
-	"hokusai/internal/component/rabbitmq/producer"
-	"hokusai/internal/component/rabbitmq/utils"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/internal/component/rabbitmq/channel"
+	"mceasy/internal/component/rabbitmq/config"
+	"mceasy/internal/component/rabbitmq/consumer"
+	"mceasy/internal/component/rabbitmq/producer"
+	"mceasy/internal/component/rabbitmq/utils"
 
 	"runtime"
 

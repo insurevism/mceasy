@@ -3,9 +3,9 @@ package repository
 import (
 	"context"
 	"errors"
-	"hokusai/ent"
-	"hokusai/ent/user"
-	"hokusai/middleware"
+	"mceasy/ent"
+	"mceasy/ent/user"
+	"mceasy/middleware"
 	"time"
 
 	"github.com/labstack/gommon/log"

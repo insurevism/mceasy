@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"hokusai/internal/component/log"
+	"mceasy/internal/component/log"
 
 	"github.com/labstack/echo/v4"
 )

@@ -2,7 +2,7 @@ package connection
 
 import (
 	"fmt"
-	"hokusai/configs/credential"
+	"mceasy/configs/credential"
 
 	"github.com/labstack/gommon/log"
 	amqp "github.com/rabbitmq/amqp091-go"

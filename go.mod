@@ -1,4 +1,4 @@
-module hokusai
+module mceasy
 
 go 1.19
 
@@ -22,26 +22,21 @@ require (
 	github.com/dranikpg/dto-mapper v0.1.1
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-resty/resty/v2 v2.12.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/gookit/goutil v0.6.15
 	github.com/jarcoal/httpmock v1.3.0
 	github.com/lib/pq v1.10.9
 	github.com/newrelic/go-agent/v3 v3.32.0
 	github.com/pierrec/lz4/v4 v4.1.18
-	github.com/pkg/errors v0.9.1
 	github.com/pressly/goose/v3 v3.15.0
 	github.com/rabbitmq/amqp091-go v1.9.0
 	github.com/rs/zerolog v1.33.0
 	github.com/shopspring/decimal v1.4.0
 	github.com/tidwall/gjson v1.14.4
 	github.com/vmihailenco/msgpack/v4 v4.3.12
-	github.com/ziutek/mymysql v1.5.4
 )
 
 require (
-	ariga.io/entimport v0.0.0-20230523171249-3381ae96c490 // indirect
-	entgo.io/contrib v0.2.1-0.20220405071655-7dbe27ee8fec // indirect
-	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
-	github.com/jhump/protoreflect v1.10.1 // indirect
 	github.com/sagikazarmark/locafero v0.3.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect

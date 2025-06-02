@@ -1,7 +1,7 @@
 package http
 
 import (
-	"hokusai/middleware"
+	"mceasy/middleware"
 	"net/http"
 	"time"
 

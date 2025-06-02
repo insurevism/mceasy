@@ -5,14 +5,14 @@ package intercept
 import (
 	"context"
 	"fmt"
-	"hokusai/ent"
-	"hokusai/ent/attendance"
-	"hokusai/ent/employee"
-	"hokusai/ent/predicate"
-	"hokusai/ent/role"
-	"hokusai/ent/roleuser"
-	"hokusai/ent/salarycalculation"
-	"hokusai/ent/user"
+	"mceasy/ent"
+	"mceasy/ent/attendance"
+	"mceasy/ent/employee"
+	"mceasy/ent/predicate"
+	"mceasy/ent/role"
+	"mceasy/ent/roleuser"
+	"mceasy/ent/salarycalculation"
+	"mceasy/ent/user"
 
 	"entgo.io/ent/dialect/sql"
 )

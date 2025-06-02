@@ -50,7 +50,7 @@ services:
 
   app:
     build: .
-    container_name: hokusai
+    container_name: mceasy
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -66,7 +66,7 @@ services:
     networks:
       - app-network
     volumes:
-      - /tmp/hokusai:/tmp/hokusai
+      - /tmp/mceasy:/tmp/mceasy
     env_file:
       - .env
     deploy:

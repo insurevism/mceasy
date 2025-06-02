@@ -3,13 +3,13 @@
 package ent
 
 import (
-	"hokusai/ent/attendance"
-	"hokusai/ent/employee"
-	"hokusai/ent/role"
-	"hokusai/ent/roleuser"
-	"hokusai/ent/salarycalculation"
-	"hokusai/ent/schema"
-	"hokusai/ent/user"
+	"mceasy/ent/attendance"
+	"mceasy/ent/employee"
+	"mceasy/ent/role"
+	"mceasy/ent/roleuser"
+	"mceasy/ent/salarycalculation"
+	"mceasy/ent/schema"
+	"mceasy/ent/user"
 	"time"
 )
 

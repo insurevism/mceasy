@@ -4,8 +4,8 @@ package ent
 
 import (
 	"context"
-	"hokusai/ent/predicate"
-	"hokusai/ent/role"
+	"mceasy/ent/predicate"
+	"mceasy/ent/role"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"

@@ -3,7 +3,7 @@
 package employee
 
 import (
-	"hokusai/ent/predicate"
+	"mceasy/ent/predicate"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

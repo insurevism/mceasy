@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
-	"hokusai/configs/credential"
-	"hokusai/ent"
+	"mceasy/configs/credential"
+	"mceasy/ent"
 	"time"
 
 	"github.com/labstack/gommon/log"

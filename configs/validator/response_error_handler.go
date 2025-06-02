@@ -2,7 +2,7 @@ package validator
 
 import (
 	"fmt"
-	"hokusai/internal/helper/response"
+	"mceasy/internal/helper/response"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"

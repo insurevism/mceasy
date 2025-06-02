@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"hokusai/internal/applications/health/repository"
-	"hokusai/internal/component/cache"
+	"mceasy/internal/applications/health/repository"
+	"mceasy/internal/component/cache"
 )
 
 type HealthServiceImpl struct {

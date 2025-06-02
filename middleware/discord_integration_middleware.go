@@ -70,7 +70,7 @@ func SendDiscordNotificationError(source WebhookChannelSource, err error) error 
 	// Construct the embed message
 	embed := DiscordEmbed{
 		Title:       "🚨 Error Alert 🚨",
-		Description: "An error occurred in hokusai.",
+		Description: "An error occurred in mceasy.",
 		Color:       0xFF0000, // Red color for errors
 		Fields: []EmbedField{
 			{Name: "🔹 **Source**", Value: fmt.Sprintf("`%s`", source), Inline: false},
@@ -291,7 +291,7 @@ func SendSSEClientConnectedNotification(status string) error {
 				"color":       3447003, // Blue color
 				"timestamp":   time.Now().Format(time.RFC3339),
 				"footer": map[string]interface{}{
-					"text": "Hokusai System",
+					"text": "Mceasy System",
 				},
 			},
 		},

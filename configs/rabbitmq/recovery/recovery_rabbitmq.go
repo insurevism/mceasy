@@ -1,9 +1,9 @@
 package recovery
 
 import (
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/ent"
-	"hokusai/internal/component/rabbitmq/registry"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/ent"
+	"mceasy/internal/component/rabbitmq/registry"
 	"time"
 
 	"github.com/go-redis/redis/v8"

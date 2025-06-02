@@ -2,9 +2,9 @@ package controller
 
 import (
 	"errors"
-	"hokusai/internal/helper"
-	mock_service "hokusai/mocks/applications/health/service"
-	"hokusai/test"
+	"mceasy/internal/helper"
+	mock_service "mceasy/mocks/applications/health/service"
+	"mceasy/test"
 	"net/http"
 	"net/http/httptest"
 	"testing"

@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"hokusai/internal/component/rabbitmq/config"
+	"mceasy/internal/component/rabbitmq/config"
 
 	"github.com/labstack/gommon/log"
 	amqp "github.com/rabbitmq/amqp091-go"

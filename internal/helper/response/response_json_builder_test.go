@@ -2,7 +2,7 @@ package response
 
 import (
 	"errors"
-	"hokusai/internal/helper"
+	"mceasy/internal/helper"
 	"net/http"
 	"net/http/httptest"
 	"testing"

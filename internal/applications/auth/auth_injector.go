@@ -4,11 +4,11 @@
 package auth
 
 import (
-	"hokusai/ent"
-	"hokusai/internal/applications/auth/service"
-	passwordhasher "hokusai/internal/applications/auth/utils/password_hasher"
-	clientcredentialdb "hokusai/internal/applications/auth_client_credential/repository/db"
-	clientsession "hokusai/internal/applications/auth_client_session"
+	"mceasy/ent"
+	"mceasy/internal/applications/auth/service"
+	passwordhasher "mceasy/internal/applications/auth/utils/password_hasher"
+	clientcredentialdb "mceasy/internal/applications/auth_client_credential/repository/db"
+	clientsession "mceasy/internal/applications/auth_client_session"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"

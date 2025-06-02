@@ -4,7 +4,7 @@ package mock_transaction
 
 import (
 	context "context"
-	ent "hokusai/ent"
+	ent "mceasy/ent"
 
 	mock "github.com/stretchr/testify/mock"
 )

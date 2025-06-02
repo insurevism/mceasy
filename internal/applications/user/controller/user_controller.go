@@ -1,11 +1,11 @@
 package controller
 
 import (
-	authsvc "hokusai/internal/applications/auth/service"
-	"hokusai/internal/applications/user/dto"
-	"hokusai/internal/applications/user/service"
-	"hokusai/internal/helper"
-	"hokusai/internal/helper/response"
+	authsvc "mceasy/internal/applications/auth/service"
+	"mceasy/internal/applications/user/dto"
+	"mceasy/internal/applications/user/service"
+	"mceasy/internal/helper"
+	"mceasy/internal/helper/response"
 	"net/http"
 	"strconv"
 

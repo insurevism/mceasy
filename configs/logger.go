@@ -8,7 +8,7 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/spf13/viper"
 
-	logger "hokusai/internal/component/log"
+	logger "mceasy/internal/component/log"
 )
 
 func SetupLogger(e *echo.Echo) {

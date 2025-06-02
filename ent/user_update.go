@@ -6,8 +6,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"hokusai/ent/predicate"
-	"hokusai/ent/user"
+	"mceasy/ent/predicate"
+	"mceasy/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql"

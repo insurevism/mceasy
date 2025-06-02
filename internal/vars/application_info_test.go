@@ -9,5 +9,5 @@ import (
 func TestApplicationInfo(t *testing.T) {
 	name := ApplicationName()
 	assert.NotNil(t, name)
-	assert.Equal(t, name, "Hokusai") //default value
+	assert.Equal(t, name, "Mceasy") //default value
 }

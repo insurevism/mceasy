@@ -4,8 +4,8 @@ package ent
 
 import (
 	"fmt"
-	"hokusai/ent/attendance"
-	"hokusai/ent/employee"
+	"mceasy/ent/attendance"
+	"mceasy/ent/employee"
 	"strings"
 	"time"
 

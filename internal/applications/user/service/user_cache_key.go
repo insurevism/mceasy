@@ -1,7 +1,7 @@
 package service
 
 import (
-	"hokusai/internal/vars"
+	"mceasy/internal/vars"
 	"strconv"
 	"strings"
 )

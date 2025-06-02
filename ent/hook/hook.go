@@ -5,7 +5,7 @@ package hook
 import (
 	"context"
 	"fmt"
-	"hokusai/ent"
+	"mceasy/ent"
 )
 
 // The AttendanceFunc type is an adapter to allow the use of ordinary

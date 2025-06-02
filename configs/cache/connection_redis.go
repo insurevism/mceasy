@@ -3,7 +3,7 @@ package cache
 import (
 	"crypto/tls"
 	"fmt"
-	"hokusai/configs/credential"
+	"mceasy/configs/credential"
 
 	"github.com/go-redis/redis/v8"
 )

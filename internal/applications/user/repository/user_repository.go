@@ -2,7 +2,7 @@ package repository
 
 import (
 	"context"
-	"hokusai/ent"
+	"mceasy/ent"
 )
 
 type UserRepository interface {

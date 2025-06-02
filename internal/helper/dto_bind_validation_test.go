@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"hokusai/configs/validator"
+	"mceasy/configs/validator"
 	"net/http"
 	"net/http/httptest"
 	"strings"

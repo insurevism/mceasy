@@ -1,13 +1,13 @@
 package swagger
 
 import (
-	"hokusai/cmd/docs"
+	"mceasy/cmd/docs"
 
 	"github.com/spf13/viper"
 )
 
 func InitSwagger() {
-	docs.SwaggerInfo.Title = "Hokusai Service"
+	docs.SwaggerInfo.Title = "Mceasy Service"
 	docs.SwaggerInfo.Description = "Ex nihilo nihil fit"
 	docs.SwaggerInfo.Version = viper.GetString("application.version")
 	docs.SwaggerInfo.Host = viper.GetString("swagger.host")

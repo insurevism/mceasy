@@ -1,8 +1,8 @@
 package helper
 
 import (
-	"hokusai/globalutils/pagination"
 	"math"
+	"mceasy/globalutils/pagination"
 )
 
 func OffsetFromPage(page *pagination.Page) pagination.Offset {

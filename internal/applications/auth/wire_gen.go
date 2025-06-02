@@ -9,13 +9,13 @@ package auth
 import (
 	"github.com/go-redis/redis/v8"
 	"github.com/google/wire"
-	"hokusai/ent"
-	"hokusai/internal/applications/auth/service"
-	"hokusai/internal/applications/auth/utils/password_hasher"
-	"hokusai/internal/applications/auth_client_credential/repository/db"
-	db2 "hokusai/internal/applications/auth_client_session/repository/db"
-	service2 "hokusai/internal/applications/auth_client_session/service"
-	"hokusai/internal/component/cache"
+	"mceasy/ent"
+	"mceasy/internal/applications/auth/service"
+	"mceasy/internal/applications/auth/utils/password_hasher"
+	"mceasy/internal/applications/auth_client_credential/repository/db"
+	db2 "mceasy/internal/applications/auth_client_session/repository/db"
+	service2 "mceasy/internal/applications/auth_client_session/service"
+	"mceasy/internal/component/cache"
 )
 
 // Injectors from auth_injector.go:

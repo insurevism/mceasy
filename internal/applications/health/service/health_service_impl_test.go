@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	mock_repository "hokusai/mocks/applications/health/repository"
-	mock_cache "hokusai/mocks/component/cache"
+	mock_repository "mceasy/mocks/applications/health/repository"
+	mock_cache "mceasy/mocks/component/cache"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

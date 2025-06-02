@@ -28,7 +28,7 @@ func main() {
 }
 
 func makeRequest() {
-	url := "https://hokusai.mainhaustradeclub.com/hokusai/news?refresh=true"
+	url := "https://mceasy.mainhaustradeclub.com/mceasy/news?refresh=true"
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Printf("Error creating request: %v", err)

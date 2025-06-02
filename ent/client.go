@@ -8,14 +8,14 @@ import (
 	"fmt"
 	"log"
 
-	"hokusai/ent/migrate"
+	"mceasy/ent/migrate"
 
-	"hokusai/ent/attendance"
-	"hokusai/ent/employee"
-	"hokusai/ent/role"
-	"hokusai/ent/roleuser"
-	"hokusai/ent/salarycalculation"
-	"hokusai/ent/user"
+	"mceasy/ent/attendance"
+	"mceasy/ent/employee"
+	"mceasy/ent/role"
+	"mceasy/ent/roleuser"
+	"mceasy/ent/salarycalculation"
+	"mceasy/ent/user"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"

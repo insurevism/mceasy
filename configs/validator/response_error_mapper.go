@@ -3,7 +3,7 @@ package validator
 import (
 	"errors"
 	"fmt"
-	"hokusai/exceptions"
+	"mceasy/exceptions"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"

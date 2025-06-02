@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"hokusai/ent"
+	"mceasy/ent"
 	"sync"
 
 	"github.com/golang-jwt/jwt/v5"

@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"hokusai/ent"
-	"hokusai/ent/enttest"
+	"mceasy/ent"
+	"mceasy/ent/enttest"
 	"testing"
 
 	_ "github.com/mattn/go-sqlite3"

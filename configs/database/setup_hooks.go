@@ -1,8 +1,8 @@
 package database
 
 import (
-	"hokusai/ent"
-	// "hokusai/ent/intercept"
+	"mceasy/ent"
+	// "mceasy/ent/intercept"
 
 	"github.com/labstack/gommon/log"
 )

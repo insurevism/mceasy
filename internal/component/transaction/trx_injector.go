@@ -4,7 +4,7 @@
 package transaction
 
 import (
-	"hokusai/ent"
+	"mceasy/ent"
 
 	"github.com/google/wire"
 )

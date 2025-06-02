@@ -2,7 +2,7 @@ package channel
 
 import (
 	"context"
-	"hokusai/configs/rabbitmq/connection"
+	"mceasy/configs/rabbitmq/connection"
 
 	"github.com/labstack/gommon/log"
 	amqp "github.com/rabbitmq/amqp091-go"

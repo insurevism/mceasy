@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"hokusai/ent/user"
+	"mceasy/ent/user"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

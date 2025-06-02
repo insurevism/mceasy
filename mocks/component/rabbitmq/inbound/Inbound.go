@@ -3,7 +3,7 @@
 package mock_inbound
 
 import (
-	config "hokusai/internal/component/rabbitmq/config"
+	config "mceasy/internal/component/rabbitmq/config"
 
 	mock "github.com/stretchr/testify/mock"
 )

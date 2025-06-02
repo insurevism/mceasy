@@ -2,10 +2,10 @@ package producer
 
 import (
 	"encoding/json"
-	"hokusai/internal/component/rabbitmq/channel"
-	"hokusai/internal/component/rabbitmq/config"
-	"hokusai/internal/component/rabbitmq/errors"
-	"hokusai/internal/component/rabbitmq/utils"
+	"mceasy/internal/component/rabbitmq/channel"
+	"mceasy/internal/component/rabbitmq/config"
+	"mceasy/internal/component/rabbitmq/errors"
+	"mceasy/internal/component/rabbitmq/utils"
 
 	"github.com/labstack/gommon/log"
 	amqp "github.com/rabbitmq/amqp091-go"

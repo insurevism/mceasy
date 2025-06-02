@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"hokusai/ent"
-	"hokusai/internal/applications/auth/dto"
+	"mceasy/ent"
+	"mceasy/internal/applications/auth/dto"
 
 	"github.com/labstack/echo/v4"
 )

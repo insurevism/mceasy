@@ -3,7 +3,7 @@ package transaction
 import (
 	"context"
 	"fmt"
-	"hokusai/ent"
+	"mceasy/ent"
 )
 
 type TrxImpl struct {

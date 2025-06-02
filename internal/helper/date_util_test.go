@@ -1,7 +1,7 @@
 package helper_test
 
 import (
-	"hokusai/internal/helper"
+	"mceasy/internal/helper"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

@@ -8,8 +8,8 @@ package producer
 
 import (
 	"github.com/google/wire"
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/internal/component/rabbitmq/channel"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/internal/component/rabbitmq/channel"
 )
 
 // Injectors from producer_service_injector.go:

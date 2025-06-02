@@ -1,9 +1,9 @@
 package initialize
 
 import (
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/configs/rabbitmq/recovery"
-	"hokusai/ent"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/configs/rabbitmq/recovery"
+	"mceasy/ent"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/labstack/gommon/log"

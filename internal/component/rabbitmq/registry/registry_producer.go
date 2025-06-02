@@ -1,8 +1,8 @@
 package registry
 
 import (
-	"hokusai/configs/rabbitmq/connection"
-	"hokusai/internal/component/rabbitmq/config"
+	"mceasy/configs/rabbitmq/connection"
+	"mceasy/internal/component/rabbitmq/config"
 )
 
 type ProducerRegistry struct {

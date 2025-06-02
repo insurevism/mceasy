@@ -2,11 +2,11 @@ package producer
 
 import (
 	"errors"
-	producerErrors "hokusai/internal/component/rabbitmq/errors"
-	"hokusai/internal/component/rabbitmq/mocks"
-	"hokusai/internal/component/rabbitmq/utils"
-	mock_channel "hokusai/mocks/component/rabbitmq/channel"
 	"math"
+	producerErrors "mceasy/internal/component/rabbitmq/errors"
+	"mceasy/internal/component/rabbitmq/mocks"
+	"mceasy/internal/component/rabbitmq/utils"
+	mock_channel "mceasy/mocks/component/rabbitmq/channel"
 	"testing"
 
 	amqp "github.com/rabbitmq/amqp091-go"

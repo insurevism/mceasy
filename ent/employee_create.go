@@ -6,9 +6,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"hokusai/ent/attendance"
-	"hokusai/ent/employee"
-	"hokusai/ent/salarycalculation"
+	"mceasy/ent/attendance"
+	"mceasy/ent/employee"
+	"mceasy/ent/salarycalculation"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"

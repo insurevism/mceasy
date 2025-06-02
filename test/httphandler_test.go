@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"testing"
 
-	"hokusai/pkg/tokopediaclient/tests"
+	"mceasy/pkg/tokopediaclient/tests"
 
 	"github.com/stretchr/testify/assert"
 )

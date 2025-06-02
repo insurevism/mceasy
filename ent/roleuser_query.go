@@ -5,8 +5,8 @@ package ent
 import (
 	"context"
 	"fmt"
-	"hokusai/ent/predicate"
-	"hokusai/ent/roleuser"
+	"mceasy/ent/predicate"
+	"mceasy/ent/roleuser"
 	"math"
 
 	"entgo.io/ent/dialect/sql"

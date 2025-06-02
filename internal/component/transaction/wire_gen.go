@@ -8,7 +8,7 @@ package transaction
 
 import (
 	"github.com/google/wire"
-	"hokusai/ent"
+	"mceasy/ent"
 )
 
 // Injectors from trx_injector.go:

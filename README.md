@@ -2,7 +2,7 @@
 <table>
   <tr>
     <td style="padding-right: 20px;">Mainhaus backend</td>
-    <td><img src="hokusai-wave.jpg"></td>
+    <td><img src="mceasy-wave.jpg"></td>
   </tr>
 </table>
 
@@ -166,4 +166,4 @@ make all
 - [ ] integrate live reload
 - [ ] implement message broker integration - rabbitmq
 - [x] integrate swagger or API docs - https://github.com/swaggo/echo-swagger
-- [ ] dockerize project / Colima # hokusai
+- [ ] dockerize project / Colima # mceasy

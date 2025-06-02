@@ -5,9 +5,9 @@ package ent
 import (
 	"context"
 	"fmt"
-	"hokusai/ent/employee"
-	"hokusai/ent/predicate"
-	"hokusai/ent/salarycalculation"
+	"mceasy/ent/employee"
+	"mceasy/ent/predicate"
+	"mceasy/ent/salarycalculation"
 	"math"
 
 	"entgo.io/ent/dialect/sql"

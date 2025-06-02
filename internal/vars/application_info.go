@@ -14,7 +14,7 @@ func newApplication() *application {
 	app := new(application)
 	name := viper.GetString("application.name")
 	if name == "" {
-		name = "Hokusai"
+		name = "Mceasy"
 	}
 
 	app.name = name
