@@ -326,9 +326,8 @@ func (r *SalaryRepositoryImpl) GetEmployeeSalarySummary(ctx context.Context, emp
 	for i, calc := range calculations {
 		monthlySalaries[i] = dto.SalaryCalculationResponse{
 			ID:                 calc.ID,
-			EmployeeID:         calc.EmployeeID,
+			EmployeeID:         emp.EmployeeID,
 			EmployeeName:       emp.FullName,
-			EmployeeCode:       emp.EmployeeID,
 			CalculationMonth:   calc.CalculationMonth,
 			BaseSalary:         calc.BaseSalary,
 			TotalWorkingDays:   calc.TotalWorkingDays,

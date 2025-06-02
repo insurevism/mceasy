@@ -220,7 +220,6 @@ func (s *SalaryServiceImpl) BulkCalculateSalary(ctx context.Context, req *dto.Bu
 func (s *SalaryServiceImpl) mapToSalaryCalculationResponse(calculation *ent.SalaryCalculation) *dto.SalaryCalculationResponse {
 	response := &dto.SalaryCalculationResponse{
 		ID:                 calculation.ID,
-		EmployeeID:         calculation.EmployeeID,
 		CalculationMonth:   calculation.CalculationMonth,
 		BaseSalary:         calculation.BaseSalary,
 		TotalWorkingDays:   calculation.TotalWorkingDays,
@@ -236,7 +235,7 @@ func (s *SalaryServiceImpl) mapToSalaryCalculationResponse(calculation *ent.Sala
 	// Add employee information if available
 	if calculation.Edges.Employee != nil {
 		response.EmployeeName = calculation.Edges.Employee.FullName
-		response.EmployeeCode = calculation.Edges.Employee.EmployeeID
+		response.EmployeeID = calculation.Edges.Employee.EmployeeID
 	}
 
 	return response

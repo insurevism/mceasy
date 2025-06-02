@@ -31,9 +31,8 @@ type UpdateSalaryCalculationRequest struct {
 // SalaryCalculationResponse represents the salary calculation response structure
 type SalaryCalculationResponse struct {
 	ID                 uint64    `json:"id"`
-	EmployeeID         uint64    `json:"employee_id"`
+	EmployeeID         string    `json:"employee_id"`
 	EmployeeName       string    `json:"employee_name"`
-	EmployeeCode       string    `json:"employee_code"`
 	CalculationMonth   time.Time `json:"calculation_month"`
 	BaseSalary         float64   `json:"base_salary"`
 	TotalWorkingDays   int       `json:"total_working_days"`
