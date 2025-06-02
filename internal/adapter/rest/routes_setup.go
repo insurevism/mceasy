@@ -6,6 +6,8 @@ import (
 	attendanceController "mceasy/internal/applications/attendance/controller"
 	"mceasy/internal/applications/auth"
 	authController "mceasy/internal/applications/auth/controller"
+	"mceasy/internal/applications/dashboard"
+	dashboardController "mceasy/internal/applications/dashboard/controller"
 	"mceasy/internal/applications/employee"
 	employeeController "mceasy/internal/applications/employee/controller"
 	"mceasy/internal/applications/health"
@@ -59,4 +61,8 @@ func SetupRouteHandler(e *echo.Echo, connDb *ent.Client, redisClient *redis.Clie
 	salaryService := salary.InitializedSalaryService(connDb, redisClient)
 	salaryCtrl := salaryController.NewSalaryController(salaryService)
 	salaryController.RegisterSalaryRoutes(api, salaryCtrl)
+
+	// Dashboard routes (core requirement + bonus features)
+	dashboardCtrl := dashboard.InitializedDashboardController(connDb, redisClient)
+	dashboardController.RegisterDashboardRoutes(api, dashboardCtrl)
 }

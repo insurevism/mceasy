@@ -77,7 +77,8 @@ func (s *AuthServiceImpl) Register(ctx context.Context, req *dto.RegisterRequest
 	// Return client credential with the created user info
 	return &dto.ClientCredential{
 		Username: user.Username,
-		Password: hashedPassword,
+		Email:    user.Email,
+		Fullname: user.Fullname,
 	}, nil
 }
 
@@ -85,17 +86,20 @@ func (s *AuthServiceImpl) Register(ctx context.Context, req *dto.RegisterRequest
 func (s *AuthServiceImpl) Login(ctx context.Context, req *dto.LoginRequest) (*dto.ClientSession, error) {
 	// Use user service to authenticate
 	loginReq := &userDto.UserLoginRequest{
-		Email:    req.Username, // Assuming username is email
+		Email:    req.Email,
 		Password: req.Password,
 	}
 
-	_, token, err := s.userService.Login(ctx, loginReq)
+	user, token, err := s.userService.Login(ctx, loginReq)
 	if err != nil {
 		return nil, ErrCredentialDoesNotMatch
 	}
 
 	// Return client session with the token
 	return &dto.ClientSession{
+		Username:  user.Username,
+		Email:     user.Email,
+		Fullname:  user.Fullname,
 		ClientKey: token,
 	}, nil
 }

@@ -1,6 +1,8 @@
 package dto
 
 type LoginSuccessResponse struct {
-	ClientID  uint64 `json:"clientId"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	Fullname  string `json:"fullname"`
 	ClientKey string `json:"clientKey"`
 }

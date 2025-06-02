@@ -48,8 +48,7 @@ func main() {
 	validator.SetupValidator(e)
 	validator.SetupGlobalHttpUnhandleErrors(e)
 
-	dbConnection := database.NewSqlEntClient() //using sqlDb wrapped by ent
-	log.Info("initialized database configuration CONNECTED")
+	dbConnection := database.NewSqlEntClient()
 
 	//from docs define close on this function, but will impact cant create DB session on repository:
 	defer func(dbConnection *ent.Client) {

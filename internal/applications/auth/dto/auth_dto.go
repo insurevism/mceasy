@@ -4,14 +4,16 @@ import "time"
 
 // ClientCredential represents a client credential
 type ClientCredential struct {
-	ID       uint64 `json:"id"`
 	Username string `json:"username"`
-	Password string `json:"password"`
+	Email    string `json:"email"`
+	Fullname string `json:"fullname"`
 }
 
 // ClientSession represents a client session
 type ClientSession struct {
-	ID        uint64    `json:"id"`
+	Username  string    `json:"username"`
+	Email     string    `json:"email"`
+	Fullname  string    `json:"fullname"`
 	ClientKey string    `json:"client_key"`
 	ExpiresAt time.Time `json:"expires_at"`
 }
